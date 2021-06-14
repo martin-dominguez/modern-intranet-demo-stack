@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "8306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: adminpwd
+      MYSQL_USER: lportal
+      MYSQL_PASSWORD: lportal
+      MYSQL_DATABASE: demo_intranet73
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./mysql/conf.d:/etc/mysql/conf.d
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
+      - mysql-data:/var/lib/mysql
+  liferay:
+    build:
+      dockerfile: liferay/Dockerfile
+      context: .
+      args:
+        - BASE_IMAGE=liferay/dxp:7.3.10-ga1
+    depends_on:
+      - "mysql"
+    entrypoint: /usr/local/bin/wait-for -t 60 mysql:3306 -- /usr/local/bin/liferay_entrypoint.sh
+    environment:
+      LIFERAY_JVM_OPTS: "-Xms2560m -Xmx4096m"
+      LIFERAY_SETUP_PERIOD_WIZARD_PERIOD_ENABLED: "false"
+      LIFERAY_TERMS_PERIOD_OF_PERIOD_USE_PERIOD_REQUIRED: "false"
+      LIFERAY_USERS_PERIOD_REMINDER_PERIOD_QUERIES_PERIOD_ENABLED: "false"
+      LIFERAY_USERS_PERIOD_REMINDER_PERIOD_QUERIES_PERIOD_CUSTOM_PERIOD_QUESTION_PERIOD_ENABLED: "false"     
+      LIFERAY_SESSION_PERIOD_TIMEOUT_PERIOD_AUTO_PERIOD_EXTEND: "true" 
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME: "com.mysql.cj.jdbc.Driver"
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD: "lportal"
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME: "lportal"
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL: "jdbc:mysql://mysql/demo_intranet73?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&useFastDateParsing=false&useUnicode=true"
+    ports:
+      - "8080:8080"
+      - "11311:11311"
+    volumes:
+      - ./liferay:/mnt/liferay
+      - liferay-data:/opt/liferay/data
+volumes:
+  mysql-data:
+  liferay-data:
