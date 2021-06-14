@@ -5,8 +5,8 @@
 ![GitHub top language][top-lenguage-shield]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-# lrinsurances-demo
-LIFE Insurances 7.3 Demo stack
+# Modern Intranet Demo
+LIFE Enterprise (Modern-intranet) 7.3 Demo stack
 
 ## Getting Started
 
@@ -21,8 +21,7 @@ LIFE Insurances 7.3 Demo stack
 ### Instructions
 * Restore the database in your local environment. 
     * The included dump is compatible with MySQL 5.7 and MariaDB
-    * The table names are in lowercase model, take this into account if you are using MySQL 8 or you want to move it to DXPC
-    * Note that the database is named lportal
+    * Note that the database is named `demo_intranet7.3`
 * Complete the configuration in portal-ext.properties with you local configuration.
 * Run Liferay **docker-compose up -d**  and Log in as an admin
 * Go to Control Panel > Search > Index Actions: **Reindex all search indexes**
