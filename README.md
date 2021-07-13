@@ -15,7 +15,7 @@ LIFE Enterprise (Modern-intranet) 7.3 Demo stack
 - Docker 19+
 
 ### Software Stack
-* Liferay DXP 7.3.10.1 SP1
+* Liferay DXP 7.3.10.1 FP2
 * MySQL 8.0
 
 ### Instructions
